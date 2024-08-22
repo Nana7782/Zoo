@@ -1,24 +1,75 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import Animal from "./classes/Animal";
+import EnclosureId from "./enums/EnclosureID";
+import { createAnimal } from "./func/createAnimal";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// Elemente selektieren
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const selectAnimal = document.getElementById(
+  "select-animal"
+) as HTMLSelectElement;
+const nameOfAnimalInput = document.getElementById(
+  "nameInput"
+) as HTMLInputElement;
+const birthYearInput = document.getElementById(
+  "birthYearInput"
+) as HTMLInputElement;
+const selectContinent = document.getElementById(
+  "select-continent"
+) as HTMLSelectElement;
+const selectSpecialNeeds = document.getElementById(
+  "select-specialNeeds"
+) as HTMLSelectElement;
+const selectHabitat = document.getElementById(
+  "select-enclosure"
+) as HTMLSelectElement;
+const savannahEnclosure = document.getElementById("savannah") as HTMLElement;
+const jungleEnclosure = document.getElementById("jungle") as HTMLElement;
+const reptileEnclosure = document.getElementById("reptileHouse") as HTMLElement;
+const aquariumEnclosure = document.getElementById("aquarium") as HTMLElement;
+const createAnimalButton = document.getElementById(
+  "button"
+) as HTMLButtonElement;
+
+const allZooAnimals: Animal[] = [];
+const savannahAnimals: Animal[] = [];
+const jungleAnimals: Animal[] = [];
+const reptileAnimals: Animal[] = [];
+const aquariumAnimals: Animal[] = [];
+
+createAnimalButton?.addEventListener("click", (event: Event) => {
+  event.preventDefault();
+  const type = selectAnimal.value;
+  const name = nameOfAnimalInput.value;
+  const yearOfBirth = Number(birthYearInput.value);
+  const continent = Number(selectContinent.value);
+  const specialNeeds = selectSpecialNeeds.value;
+  const habitat = Number(selectHabitat.value);
+  console.log(type, name, yearOfBirth, continent, specialNeeds, habitat);
+
+  const animal = createAnimal(
+    type,
+    name,
+    yearOfBirth,
+    continent,
+    specialNeeds,
+    habitat
+  );
+  console.log(animal);
+
+  if (animal) {
+    if (
+      !type ||
+      !name ||
+      !yearOfBirth ||
+      !continent ||
+      !specialNeeds ||
+      !habitat
+    ) {
+      // cer
+      console.error("All fields are required");
+    } else {
+      allZooAnimals.push(animal);
+      console.log(allZooAnimals);
+    }
+  }
+});
